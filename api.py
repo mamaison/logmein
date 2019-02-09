@@ -15,17 +15,20 @@ def save_game(game):
 
 
 def load_game(func, guid=None):
-    with open('current_game.p', 'rb') as current_game:
-        try:
-            game = pickle.load(current_game)
-            if guid:
-                message = func(game, guid)
-            else:
-                message = func(game)
-            save_game(game)
-            return json.dumps(message)
-        except EOFError:
-            return False
+    try:
+        with open('current_game.p', 'rb') as current_game:
+            try:
+                game = pickle.load(current_game)
+                if guid:
+                    message = func(game, guid)
+                else:
+                    message = func(game)
+                save_game(game)
+                return json.dumps(message)
+            except EOFError:
+                return json.dumps({'message': 'You must create a game first'})
+    except FileNotFoundError:
+        return json.dumps({'message': 'You must create a game first'})
 
 
 @app.route('/game', methods=['POST'])
