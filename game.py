@@ -48,7 +48,10 @@ class Game(object):
             return None
 
     def deal_card(self, guid):
-        card = self.cards.pop(0)
+        try:
+            card = self.cards.pop(0)
+        except IndexError:
+            return False
         result = self.players[guid].add_card(card)
         if result is True:
             return True

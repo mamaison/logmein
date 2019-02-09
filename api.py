@@ -91,6 +91,8 @@ def deal_card(guid):
         if player:
             if game.deal_card(guid):
                 return {'message': 'Card delt'}
+            else:
+                return {'message': 'No more card to deal'}
         return {'message': 'Player not found'}
     return load_game(game_deal_card, guid)
 
